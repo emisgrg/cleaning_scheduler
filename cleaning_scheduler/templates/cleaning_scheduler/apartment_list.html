@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>My Apartments</h2>
+  <a href="{% url 'scheduler:apartments_create' %}" class="btn btn-primary">Add New Apartment</a>
+  <table class="table" id="apartment-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Owner</th>
+        <th>Size</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for apartment in apartments %}
+        <tr>
+          <td>{{ apartment.id }}</td>
+          <td>{{ apartment.name }}</td>
+          <td>{{ apartment.location }}</td>
+          <td>{{ apartment.owner }}</td>
+          <td>{{ apartment.size }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="6">No apartments found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <script>
+    // Get all the rows in the table
+    const rows = document.querySelectorAll('#apartment-table tbody tr');
+
+    // Get the base URL for the detail view
+    const baseUrl = "{% url 'scheduler:apartments_detail' id='0' %}";
+
+    // Add a click event listener to each row
+    rows.forEach(row => {
+      row.addEventListener('click', () => {
+        // Get the ID of the apartment from the first cell in the row
+        const id = row.cells[0].textContent;
+
+        // Replace the '0' in the base URL with the actual ID
+        const url = baseUrl.replace('0', id);
+
+        // Redirect to the detail view for the apartment
+        window.location.href = url;
+      });
+    });
+  </script>
+{% endblock content %}

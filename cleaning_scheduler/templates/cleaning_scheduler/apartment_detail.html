@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+  Apartment: 
+    {{ object.name }}
+{% endblock title %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <h2>
+          {{ object.name }}
+        </h2>
+        {% if object.owner == request.user %}
+          <!-- Edit Apartment Form -->
+          <form id="edit-apartment-form" method="post" action="{% url 'scheduler:apartments_update' id=object.id %}">
+            {% csrf_token %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Owner</th>
+                  <th>Size</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{ object.id }}</td>
+                  <td>
+                    <input id="name" type="text" name="name" value="{{ object.name }}">
+                    {% if form.name.errors %}
+                      {% for error in form.name.errors %}
+                        <div class="text-danger">
+                          {{ error }}
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                  </td>
+                  <td><input id="location" type="text" name="location" value="{{ object.location }}"></td>
+                  <td>{{ object.owner }}</td>
+                  <td><input id="size" type="number" name="size" value="{{ object.size }}"></td>
+                </tr>
+              </tbody>
+            </table>
+            <input type="submit" value="Update Apartment">
+          </form>
+          <div style="margin-top: 20px;">
+            <!-- Delete Apartment Button -->
+            <form method="post" style="display: inline;" action="{% url 'scheduler:apartments_delete' id=object.id %}">
+              {% csrf_token %}
+              <input type="submit" value="Delete Apartment" class="btn btn-danger" style="width: auto; height: 35px; margin-right: 10px;">
+            </form>
+          
+            <button class="btn btn-primary" onclick="history.back()" style="height: 35px; margin-left: 10px;">Cancel</button>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock content %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h2>Calendar</h2>
+  <div class="calendar-navigation">
+  <form method="get">
+      <input type="number" name="year" value="{{ year }}" min="2000" max="2099" step="1" onchange="this.form.submit()" />
+      <select name="month" onchange="this.form.submit()">
+        {% for m in months %}
+          <option value="{{ m }}" {% if m == month %}selected{% endif %}>{{ m }}</option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
+  <div class="calendar-navigation">
+    <a href="?year={{ previous_year }}&month={{ previous_month }}">Previous Month</a>
+    <a href="?year={{ now_year }}&month={{ now_month }}">Current Month</a>
+    <a href="?year={{ next_year }}&month={{ next_month }}">Next Month</a>
+  </div>
+  <table class="table calendar-table">
+    <thead>
+      <tr>
+        <th>Mon</th>
+        <th>Tue</th>
+        <th>Wed</th>
+        <th>Thu</th>
+        <th>Fri</th>
+        <th>Sat</th>
+        <th>Sun</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for week in calendar %}
+        <tr>
+          {% for day in week %}
+            <td>
+              {% if day.day != 0 %}
+                {{ day.day }}
+                {% for apartment in day.apartments %}
+                <div class="apartment {% if '*Cleaning Needed*' in apartment %}cleaning-needed{% endif %}">
+                  {{ apartment }}
+                </div>
+                {% endfor %}
+              {% endif %}
+            </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="ics_file" accept=".ics">
+    <button type="submit">Upload</button>
+  </form>
+{% endblock content %}

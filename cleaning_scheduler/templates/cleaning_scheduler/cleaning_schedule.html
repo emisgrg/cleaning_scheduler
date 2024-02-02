@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Cleaning Schedule</h1>
+<div class="calendar-navigation">
+  <form method="get">
+      <input type="number" name="year" value="{{ year }}" min="2000" max="2099" step="1" onchange="this.form.submit()" />
+      <select name="month" onchange="this.form.submit()">
+        {% for m in months %}
+          <option value="{{ m }}" {% if m == month %}selected{% endif %}>{{ m }}</option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
+  <div class="calendar-navigation">
+    <a href="?year={{ previous_year }}&month={{ previous_month }}">Previous Month</a>
+    <a href="?year={{ now_year }}&month={{ now_month }}">Current Month</a>
+    <a href="?year={{ next_year }}&month={{ next_month }}">Next Month</a>
+  </div>
+  {% if apartments and schedule %}
+  <table class="table calendar-table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            {% for apartment in apartments %}
+                <th>{{ apartment.name }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+      {% for date, statuses in schedule.items %}
+          <tr>
+              <td>{{ date }}</td>
+              {% for status in statuses %}
+                  <td>
+                      {{ status|default:"-" }}
+                  </td>
+              {% endfor %}
+          </tr>
+      {% endfor %}
+  </tbody>
+  </table>
+{% else %}
+  <p>No apartments or schedule items to display.</p>
+{% endif %}
+{% endblock %}

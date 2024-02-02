@@ -1,0 +1,57 @@
+/* These styles are generated from project.scss. */
+
+.alert-debug {
+  color: black;
+  background-color: white;
+  border-color: #d6e9c6;
+}
+
+.alert-error {
+  color: #b94a48;
+  background-color: #f2dede;
+  border-color: #eed3d7;
+}
+
+.calendar-table {
+  border-collapse: collapse;  /* This makes the borders collapse into a single line */
+  table-layout: fixed;
+  width: 100%;
+}
+
+.calendar-table td {
+  border: 1px solid #000;  /* This adds a border to each table cell */
+  padding: 10px;  /* This adds some space around the content of each cell */
+  max-width: 200px;  /* Adjust as needed */
+  height: 100px;  /* Adjust as needed */
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+.calendar-table th {
+  border: 1px solid #000;  /* This adds a border to each table header */
+  padding: 10px;  /* This adds some space around the content of each header */
+  background-color: blue;  /* This changes the background color to blue */
+  color: white;  /* This changes the text color to white for better contrast */
+}
+
+.calendar-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.calendar-navigation input,
+.calendar-navigation select {
+  width: 100px;  /* Adjust this value as needed */
+}
+
+.apartment {
+  border: 1px solid #000;
+  margin: 5px;
+  padding: 5px;
+}
+
+.cleaning-needed {
+  border-color: red;
+  background-color: #fdd;
+}
